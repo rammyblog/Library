@@ -3,13 +3,13 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
+const bookRouter = require('./src/routes/bookRoutes');
 
 const app = express();
 
 // Debugging like papertail
 app.use(morgan('tiny'));
 const port = process.env.PORT || 3000;
-const bookRouter = express.Router();
 
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use(
@@ -27,14 +27,6 @@ app.use(
 );
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
-
-bookRouter.route('/').get((req, res) => {
-  res.send('Hello books');
-});
-
-bookRouter.route('/single').get((req, res) => {
-  res.send('Hello single book');
-});
 
 app.use('/books', bookRouter);
 
